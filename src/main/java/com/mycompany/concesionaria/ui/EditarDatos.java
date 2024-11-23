@@ -147,6 +147,11 @@ public class EditarDatos extends javax.swing.JFrame {
         btnEliminar.setText("Eliminar");
 
         txtSalir.setText("Salir");
+        txtSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSalirActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setText("Actualizar");
 
@@ -222,6 +227,12 @@ public class EditarDatos extends javax.swing.JFrame {
     private void txtMotorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMotorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMotorActionPerformed
+
+    private void txtSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSalirActionPerformed
+
+        this.dispose();
+
+    }//GEN-LAST:event_txtSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

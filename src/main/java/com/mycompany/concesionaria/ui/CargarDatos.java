@@ -147,6 +147,11 @@ public class CargarDatos extends javax.swing.JFrame {
         btnLimpiar.setText("Limpiar");
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnCargar.setText("Cargar");
 
@@ -220,6 +225,15 @@ public class CargarDatos extends javax.swing.JFrame {
     private void txtMotorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMotorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMotorActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+
+        Principal principal = new Principal();
+        principal.setVisible(true);
+        principal.setLocationRelativeTo(null);
+        this.dispose();
+
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
 

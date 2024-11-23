@@ -35,10 +35,25 @@ public class Principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         btnCargarVehiculo.setText("Cargar Vehiculo");
+        btnCargarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarVehiculoActionPerformed(evt);
+            }
+        });
 
         btnCatalogo.setText("Catalogo");
+        btnCatalogo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCatalogoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -94,6 +109,30 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCargarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarVehiculoActionPerformed
+
+        CargarDatos cargarDatos = new CargarDatos();
+        cargarDatos.setVisible(true);
+        cargarDatos.setLocationRelativeTo(null);
+        this.dispose();
+        
+    }//GEN-LAST:event_btnCargarVehiculoActionPerformed
+
+    private void btnCatalogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCatalogoActionPerformed
+
+        Catalogo catalogo = new Catalogo();
+        catalogo.setVisible(true);
+        catalogo.setLocationRelativeTo(null);
+        this.dispose();
+        
+    }//GEN-LAST:event_btnCatalogoActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+
+        System.exit(0);
+
+    }//GEN-LAST:event_btnSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
