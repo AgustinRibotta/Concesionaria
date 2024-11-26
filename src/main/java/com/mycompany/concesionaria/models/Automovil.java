@@ -10,23 +10,25 @@ import javax.persistence.Id;
 public class Automovil implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     String modelo;
     String marca;
     String motor;
     String patente;
+    String color;
     int cantidadPuertas;
 
     public Automovil() {
     }
 
-    public Automovil(int id, String modelo, String marca, String motor, String patente, int cantidadPuertas) {
+    public Automovil(int id, String modelo, String marca, String motor, String patente, String color, int cantidadPuertas) {
         this.id = id;
         this.modelo = modelo;
         this.marca = marca;
         this.motor = motor;
         this.patente = patente;
+        this.color = color;
         this.cantidadPuertas = cantidadPuertas;
     }
 
@@ -36,6 +38,14 @@ public class Automovil implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public String getModelo() {

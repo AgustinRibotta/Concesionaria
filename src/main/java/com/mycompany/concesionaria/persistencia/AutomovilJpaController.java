@@ -3,76 +3,108 @@ package com.mycompany.concesionaria.persistencia;
 import com.mycompany.concesionaria.models.Automovil;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
+import javax.persistence.Persistence;
 import java.io.Serializable;
 import java.util.List;
 
 public class AutomovilJpaController implements Serializable {
 
-    @PersistenceContext(unitName = "CencesionariaPU")  
-    private EntityManager em;
+    private EntityManagerFactory emf; // Factory para crear EntityManagers
+
+    public AutomovilJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("CencesionariaPU"); // Configura la unidad de persistencia
+    }
+
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager(); // Crea un nuevo EntityManager
+    }
 
     // CREATE: Crear un nuevo Automovil
     public void create(Automovil automovil) {
+        EntityManager em = getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
-            em.persist(automovil); 
+            em.persist(automovil);
             transaction.commit();
         } catch (RuntimeException e) {
             if (transaction.isActive()) {
-                transaction.rollback(); 
+                transaction.rollback();
             }
-            throw e; 
+            throw e;
+        } finally {
+            em.close();
         }
     }
 
     // READ: Buscar un Automovil por su ID
     public Automovil find(int id) {
-        return em.find(Automovil.class, id); 
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(Automovil.class, id);
+        } finally {
+            em.close();
+        }
     }
 
     // READ: Obtener todos los Automoviles
     public List<Automovil> findAll() {
-        return em.createQuery("SELECT a FROM Automovil a", Automovil.class).getResultList(); 
+        EntityManager em = getEntityManager();
+        try {
+            return em.createQuery("SELECT a FROM Automovil a", Automovil.class).getResultList();
+        } finally {
+            em.close();
+        }
     }
 
     // UPDATE: Actualizar un Automovil existente
     public void edit(Automovil automovil) {
+        EntityManager em = getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
-            em.merge(automovil); 
+            em.merge(automovil);
             transaction.commit();
         } catch (RuntimeException e) {
             if (transaction.isActive()) {
-                transaction.rollback();  
+                transaction.rollback();
             }
-            throw e; 
+            throw e;
+        } finally {
+            em.close();
         }
     }
 
     // DELETE: Eliminar un Automovil por su ID
     public void delete(int id) {
+        EntityManager em = getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
-            Automovil automovil = em.find(Automovil.class, id);  
+            Automovil automovil = em.find(Automovil.class, id);
             if (automovil != null) {
-                em.remove(automovil);  
+                em.remove(automovil);
             }
             transaction.commit();
         } catch (RuntimeException e) {
             if (transaction.isActive()) {
-                transaction.rollback();  
+                transaction.rollback();
             }
-            throw e; 
+            throw e;
+        } finally {
+            em.close();
         }
     }
 
     // Verificar si el Automovil existe por ID
     public boolean exists(int id) {
-        return em.find(Automovil.class, id) != null;  
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(Automovil.class, id) != null;
+        } finally {
+            em.close();
+        }
     }
 }

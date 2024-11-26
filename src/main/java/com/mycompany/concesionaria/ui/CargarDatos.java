@@ -1,15 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.concesionaria.ui;
 
-/**
- *
- * @author Agust
- */
+import com.mycompany.concesionaria.logica.ControladoraLogica;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 public class CargarDatos extends javax.swing.JFrame {
 
+    ControladoraLogica controladoraLogica = new ControladoraLogica();
+    
     /**
      * Creates new form CargarDatos
      */
@@ -145,6 +143,11 @@ public class CargarDatos extends javax.swing.JFrame {
         );
 
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -154,6 +157,11 @@ public class CargarDatos extends javax.swing.JFrame {
         });
 
         btnCargar.setText("Cargar");
+        btnCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -234,6 +242,42 @@ public class CargarDatos extends javax.swing.JFrame {
         this.dispose();
 
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+
+        txtCantPuertas.setText("");
+        txtColor.setText("");
+        txtMarca.setText("");
+        txtModelo.setText("");
+        txtMotor.setText("");
+        txtPatente.setText("");        
+        
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
+
+        try {
+            // Capturar los datos
+            String cantPuertas = txtCantPuertas.getText();
+            String color = txtColor.getText();
+            String marca = txtMarca.getText();
+            String modelo = txtModelo.getText();
+            String patente = txtPatente.getText();
+
+            // Invocar el método de la lógica
+            controladoraLogica.guardar(cantPuertas, color, marca, modelo, patente);
+
+            // Generar un cartel de éxito
+            JOptionPane.showMessageDialog(this, "Vehículo guardado correctamente.",
+                    "Guardado exitoso", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (IllegalArgumentException e) {
+            // Mostrar un mensaje de error si algo sale mal
+            JOptionPane.showMessageDialog(this, e.getMessage(),
+                    "Error al guardar", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnCargarActionPerformed
 
 
 
