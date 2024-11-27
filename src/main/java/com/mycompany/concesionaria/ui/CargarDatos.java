@@ -261,11 +261,12 @@ public class CargarDatos extends javax.swing.JFrame {
             String cantPuertas = txtCantPuertas.getText();
             String color = txtColor.getText();
             String marca = txtMarca.getText();
+            String motor = txtMotor.getText();
             String modelo = txtModelo.getText();
             String patente = txtPatente.getText();
 
             // Invocar el método de la lógica
-            controladoraLogica.guardar(cantPuertas, color, marca, modelo, patente);
+            controladoraLogica.guardar(cantPuertas, color, marca, motor, modelo, patente);
 
             // Generar un cartel de éxito
             JOptionPane.showMessageDialog(this, "Vehículo guardado correctamente.",

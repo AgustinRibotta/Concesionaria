@@ -4,16 +4,17 @@
  */
 package com.mycompany.concesionaria.ui;
 
-/**
- *
- * @author Agust
- */
+import com.mycompany.concesionaria.logica.ControladoraLogica;
+import com.mycompany.concesionaria.models.Automovil;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 public class Catalogo extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Catalogo
-     */
+    ControladoraLogica control = null;
+
     public Catalogo() {
+        control = new ControladoraLogica();
         initComponents();
     }
 
@@ -39,6 +40,11 @@ public class Catalogo extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         btnBuscar.setText("Buscar");
 
@@ -196,19 +202,23 @@ public class Catalogo extends javax.swing.JFrame {
 
     private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
 
-        VerDatos verDatos = new  VerDatos();
+        VerDatos verDatos = new VerDatos();
         verDatos.setVisible(true);
         verDatos.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnVerActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-       
+
         Principal principal = new Principal();
         principal.setVisible(true);
         principal.setLocationRelativeTo(null);
         this.dispose();
-        
+
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        cargarTabla();
+    }//GEN-LAST:event_formWindowOpened
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -224,4 +234,35 @@ public class Catalogo extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarTabla() {
+//        Fijanos los renglones y columnas
+        DefaultTableModel tableModel = new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int row, int colum) {
+
+                return false;
+            }
+        };
+//         Setiamnos los titulos
+        String titulos[] = {"Modelo", "Marca", "Motor", "Color", "Cant Puertas"};
+        tableModel.setColumnIdentifiers(titulos);
+
+        List<Automovil> listAutomovil = control.traerAutomovil();
+
+        if (listAutomovil != null) {
+
+            for (Automovil auto : listAutomovil) {
+
+                Object[] objects = {auto.getModelo(), auto.getMarca(),
+                    auto.getMotor(), auto.getColor(), auto.getCantidadPuertas()
+                };
+                tableModel.addRow(objects);
+            }
+        }
+
+        jTable1.setModel(tableModel);
+
+    }
 }

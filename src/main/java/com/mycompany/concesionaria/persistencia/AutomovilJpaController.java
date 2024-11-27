@@ -53,7 +53,11 @@ public class AutomovilJpaController implements Serializable {
     public List<Automovil> findAll() {
         EntityManager em = getEntityManager();
         try {
-            return em.createQuery("SELECT a FROM Automovil a", Automovil.class).getResultList();
+            List<Automovil> automoviles = em.createQuery("SELECT a FROM Automovil a", Automovil.class).getResultList();
+            for (Automovil auto : automoviles) {
+                System.out.println("Motor del Automovil: " + auto.getMotor());
+            }
+            return automoviles;
         } finally {
             em.close();
         }

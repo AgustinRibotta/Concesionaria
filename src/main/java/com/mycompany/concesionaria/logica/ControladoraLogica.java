@@ -2,12 +2,13 @@ package com.mycompany.concesionaria.logica;
 
 import com.mycompany.concesionaria.models.Automovil;
 import com.mycompany.concesionaria.persistencia.ControladoraPersistencia;
+import java.util.List;
 
 public class ControladoraLogica {
 
     ControladoraPersistencia controladoraPersistencia = new ControladoraPersistencia();
 
-    public void guardar(String cantPuertas, String color, String marca, String modelo, String patente) {
+    public void guardar(String cantPuertas, String color, String marca, String motor, String modelo, String patente) {
         try {
             // Convertir cantPuertas a int
             int cantidadPuertas = Integer.parseInt(cantPuertas);
@@ -22,6 +23,7 @@ public class ControladoraLogica {
             automovil.setCantidadPuertas(cantidadPuertas);
             automovil.setColor(color);
             automovil.setMarca(marca);
+            automovil.setMotor(motor);
             automovil.setModelo(modelo);
             automovil.setPatente(patente);
 
@@ -38,5 +40,16 @@ public class ControladoraLogica {
             throw e;
         }
     }
-    
+
+    public List<Automovil> traerAutomovil() {
+
+        return controladoraPersistencia.traerAutomovil();
+    }
+
+ 
+   public void buscar(String bucar) {
+
+        controladoraPersistencia.buscar(bucar);
+    }
+
 }
