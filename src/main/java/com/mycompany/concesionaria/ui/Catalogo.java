@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.concesionaria.ui;
 
 import com.mycompany.concesionaria.logica.ControladoraLogica;
 import com.mycompany.concesionaria.models.Automovil;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Catalogo extends javax.swing.JFrame {
@@ -30,7 +27,13 @@ public class Catalogo extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnBuscar = new javax.swing.JButton();
-        txtBuscar = new javax.swing.JTextField();
+        txtModelo = new javax.swing.JTextField();
+        txtMarca = new javax.swing.JTextField();
+        txtColor = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        btnTodo = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -47,10 +50,40 @@ public class Catalogo extends javax.swing.JFrame {
         });
 
         btnBuscar.setText("Buscar");
-
-        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtBuscarActionPerformed(evt);
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        txtModelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtModeloActionPerformed(evt);
+            }
+        });
+
+        txtMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMarcaActionPerformed(evt);
+            }
+        });
+
+        txtColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtColorActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Color");
+
+        jLabel2.setText("Marca");
+
+        jLabel3.setText("Modelo");
+
+        btnTodo.setText("Ver Todo");
+        btnTodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTodoActionPerformed(evt);
             }
         });
 
@@ -59,19 +92,40 @@ public class Catalogo extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(108, 108, 108)
+                .addGap(58, 58, 58)
                 .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(btnTodo)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(4, 4, 4)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtColor, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTodo))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -188,9 +242,9 @@ public class Catalogo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+    private void txtModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtModeloActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtBuscarActionPerformed
+    }//GEN-LAST:event_txtModeloActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
 
@@ -220,19 +274,55 @@ public class Catalogo extends javax.swing.JFrame {
         cargarTabla();
     }//GEN-LAST:event_formWindowOpened
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+
+        String modelo = txtModelo.getText().trim();
+        String marca = txtMarca.getText().trim();
+        String color = txtColor.getText().trim();
+
+        // Validar si al menos un campo es ingresado
+        if (modelo.isEmpty() && marca.isEmpty() && color.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese al menos un criterio de búsqueda.");
+        } else {
+            try {
+                control.buscar(modelo, marca, color, this);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error al buscar automóviles: " + e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void txtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarcaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMarcaActionPerformed
+
+    private void txtColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtColorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtColorActionPerformed
+
+    private void btnTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTodoActionPerformed
+        cargarTabla();
+    }//GEN-LAST:event_btnTodoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JButton btnTodo;
     private javax.swing.JButton btnVer;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtBuscar;
+    private javax.swing.JTextField txtColor;
+    private javax.swing.JTextField txtMarca;
+    private javax.swing.JTextField txtModelo;
     // End of variables declaration//GEN-END:variables
 
     private void cargarTabla() {
@@ -265,4 +355,29 @@ public class Catalogo extends javax.swing.JFrame {
         jTable1.setModel(tableModel);
 
     }
+    
+    public void actualizarTabla(List<Automovil> automoviles) {
+        DefaultTableModel tableModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;  // Deshabilitar edición de celdas
+            }
+        };
+
+        // Titulos de columnas
+        String[] titulos = {"Modelo", "Marca", "Motor", "Color", "Cant Puertas"};
+        tableModel.setColumnIdentifiers(titulos);
+
+        // Agregar filas a la tabla
+        if (automoviles != null) {
+            for (Automovil auto : automoviles) {
+                Object[] objects = {auto.getModelo(), auto.getMarca(),
+                    auto.getMotor(), auto.getColor(), auto.getCantidadPuertas()};
+                tableModel.addRow(objects);
+            }
+        }
+
+        jTable1.setModel(tableModel);  // Establecer el modelo de la tabla
+    }
+
 }

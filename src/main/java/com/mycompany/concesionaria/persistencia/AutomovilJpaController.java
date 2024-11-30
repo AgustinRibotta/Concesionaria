@@ -1,27 +1,22 @@
 package com.mycompany.concesionaria.persistencia;
 
 import com.mycompany.concesionaria.models.Automovil;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import java.io.Serializable;
+import javax.persistence.*;
 import java.util.List;
 
-public class AutomovilJpaController implements Serializable {
+public class AutomovilJpaController {
 
-    private EntityManagerFactory emf; // Factory para crear EntityManagers
+    private EntityManagerFactory emf;
 
     public AutomovilJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("CencesionariaPU"); // Configura la unidad de persistencia
+        emf = Persistence.createEntityManagerFactory("CencesionariaPU");
     }
 
     private EntityManager getEntityManager() {
-        return emf.createEntityManager(); // Crea un nuevo EntityManager
+        return emf.createEntityManager();
     }
 
-    // CREATE: Crear un nuevo Automovil
+    // Crear un nuevo Automovil
     public void create(Automovil automovil) {
         EntityManager em = getEntityManager();
         EntityTransaction transaction = em.getTransaction();
@@ -39,7 +34,7 @@ public class AutomovilJpaController implements Serializable {
         }
     }
 
-    // READ: Buscar un Automovil por su ID
+    // Buscar un Automovil por ID
     public Automovil find(int id) {
         EntityManager em = getEntityManager();
         try {
@@ -49,21 +44,17 @@ public class AutomovilJpaController implements Serializable {
         }
     }
 
-    // READ: Obtener todos los Automoviles
+    // Obtener todos los Automoviles
     public List<Automovil> findAll() {
         EntityManager em = getEntityManager();
         try {
-            List<Automovil> automoviles = em.createQuery("SELECT a FROM Automovil a", Automovil.class).getResultList();
-            for (Automovil auto : automoviles) {
-                System.out.println("Motor del Automovil: " + auto.getMotor());
-            }
-            return automoviles;
+            return em.createQuery("SELECT a FROM Automovil a", Automovil.class).getResultList();
         } finally {
             em.close();
         }
     }
 
-    // UPDATE: Actualizar un Automovil existente
+    // Editar un Automovil
     public void edit(Automovil automovil) {
         EntityManager em = getEntityManager();
         EntityTransaction transaction = em.getTransaction();
@@ -81,7 +72,7 @@ public class AutomovilJpaController implements Serializable {
         }
     }
 
-    // DELETE: Eliminar un Automovil por su ID
+    // Eliminar un Automovil por ID
     public void delete(int id) {
         EntityManager em = getEntityManager();
         EntityTransaction transaction = em.getTransaction();
@@ -102,13 +93,33 @@ public class AutomovilJpaController implements Serializable {
         }
     }
 
-    // Verificar si el Automovil existe por ID
-    public boolean exists(int id) {
-        EntityManager em = getEntityManager();
-        try {
-            return em.find(Automovil.class, id) != null;
-        } finally {
-            em.close();
+    // Buscar Automoviles por parámetros
+    public List<Automovil> buscarPorParametros(String modelo, String marca, String color) {
+        StringBuilder query = new StringBuilder("SELECT a FROM Automovil a WHERE 1=1");
+
+        if (modelo != null && !modelo.isEmpty()) {
+            query.append(" AND a.modelo LIKE :modelo");
         }
+        if (marca != null && !marca.isEmpty()) {
+            query.append(" AND a.marca LIKE :marca");
+        }
+        if (color != null && !color.isEmpty()) {
+            query.append(" AND a.color LIKE :color");
+        }
+
+        EntityManager em = getEntityManager();
+        TypedQuery<Automovil> typedQuery = em.createQuery(query.toString(), Automovil.class);
+
+        if (modelo != null && !modelo.isEmpty()) {
+            typedQuery.setParameter("modelo", "%" + modelo + "%");
+        }
+        if (marca != null && !marca.isEmpty()) {
+            typedQuery.setParameter("marca", "%" + marca + "%");
+        }
+        if (color != null && !color.isEmpty()) {
+            typedQuery.setParameter("color", "%" + color + "%");
+        }
+
+        return typedQuery.getResultList();
     }
 }

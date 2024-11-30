@@ -5,14 +5,20 @@ import java.util.List;
 
 public class ControladoraPersistencia {
 
-    AutomovilJpaController jpaController = new AutomovilJpaController();
+    private AutomovilJpaController jpaController = new AutomovilJpaController();
 
+    // Guardar un Automovil
     public void guardar(Automovil automovil) {
         jpaController.create(automovil);
     }
 
+    // Obtener todos los Automoviles
     public List<Automovil> traerAutomovil() {
         return jpaController.findAll();
     }
 
+    // Buscar Automoviles por parámetros
+    public List<Automovil> buscar(String modelo, String marca, String color) {
+        return jpaController.buscarPorParametros(modelo, marca, color);
+    }
 }

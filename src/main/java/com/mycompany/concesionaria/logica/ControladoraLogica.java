@@ -2,14 +2,19 @@ package com.mycompany.concesionaria.logica;
 
 import com.mycompany.concesionaria.models.Automovil;
 import com.mycompany.concesionaria.persistencia.ControladoraPersistencia;
+import com.mycompany.concesionaria.ui.Catalogo;
 import java.util.List;
 
 public class ControladoraLogica {
 
-    ControladoraPersistencia controladoraPersistencia = new ControladoraPersistencia();
+    private ControladoraPersistencia controladoraPersistencia = new ControladoraPersistencia();
 
+    // Guardar un Automovil
     public void guardar(String cantPuertas, String color, String marca, String motor, String modelo, String patente) {
         try {
+            // Validar los parámetros de entrada
+            validarParametros(cantPuertas, color, marca, motor, modelo);
+
             // Convertir cantPuertas a int
             int cantidadPuertas = Integer.parseInt(cantPuertas);
 
@@ -27,9 +32,8 @@ public class ControladoraLogica {
             automovil.setModelo(modelo);
             automovil.setPatente(patente);
 
-            // Guardar el vehículo 
+            // Guardar el vehículo
             controladoraPersistencia.guardar(automovil);
-
             System.out.println("Vehículo guardado correctamente: " + automovil);
 
         } catch (NumberFormatException e) {
@@ -41,15 +45,33 @@ public class ControladoraLogica {
         }
     }
 
-    public List<Automovil> traerAutomovil() {
+    // Validación de los parámetros
+    private void validarParametros(String cantPuertas, String color, String marca, String motor, String modelo) {
+        if (color == null || color.trim().isEmpty()) {
+            throw new IllegalArgumentException("El color no puede estar vacío.");
+        }
+        if (marca == null || marca.trim().isEmpty()) {
+            throw new IllegalArgumentException("La marca no puede estar vacía.");
+        }
+        if (motor == null || motor.trim().isEmpty()) {
+            throw new IllegalArgumentException("El motor no puede estar vacío.");
+        }
+        if (modelo == null || modelo.trim().isEmpty()) {
+            throw new IllegalArgumentException("El modelo no puede estar vacío.");
+        }
+        if (cantPuertas == null || cantPuertas.trim().isEmpty()) {
+            throw new IllegalArgumentException("La cantidad de puertas no puede estar vacía.");
+        }
+    }
 
+    // Obtener todos los Automoviles
+    public List<Automovil> traerAutomovil() {
         return controladoraPersistencia.traerAutomovil();
     }
 
- 
-   public void buscar(String bucar) {
-
-        controladoraPersistencia.buscar(bucar);
+    // Buscar Automoviles por parámetros
+    public void buscar(String modelo, String marca, String color, Catalogo ui) {
+        List<Automovil> resultados = controladoraPersistencia.buscar(modelo, marca, color);
+        ui.actualizarTabla(resultados);
     }
-
 }
