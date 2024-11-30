@@ -78,4 +78,41 @@ public class ControladoraLogica {
     public Automovil traerAutomovil(int num_auto) {
         return controladoraPersistencia.traerUnAutomovil(num_auto);
     }
+
+    public void modificarAuto(Automovil automovil, String marca, String modelo, String color, String motor, String patente, String cantPuertas) {
+        try {
+            // Validar los parámetros de entrada
+            validarParametros(cantPuertas, color, marca, motor, modelo);
+
+            // Convertir cantPuertas a int
+            int cantidadPuertas = Integer.parseInt(cantPuertas);
+
+            // Validar que el número de puertas esté entre 0 y 5
+            if (cantidadPuertas < 0 || cantidadPuertas > 5) {
+                throw new IllegalArgumentException("La cantidad de puertas debe estar entre 0 y 5.");
+            }
+            
+            automovil.setCantidadPuertas(cantidadPuertas);
+            automovil.setColor(color);
+            automovil.setMarca(marca);
+            automovil.setModelo(modelo);
+            automovil.setMotor(motor);
+            automovil.setPatente(patente);
+            
+            controladoraPersistencia.modificarAuto(automovil);
+
+        } catch (NumberFormatException e) {
+            // Manejar error si el valor no es un número
+            throw new IllegalArgumentException("La cantidad de puertas debe ser un número entero válido.", e);
+        } catch (IllegalArgumentException e) {
+            // Re-lanzar la excepción para que pueda ser manejada en la UI o registrar un error
+            throw e;
+        }
+    }
+
+    public void borrarAuto(int num_auto) {
+
+        controladoraPersistencia.borrarAuto(num_auto);
+    }
+
 }

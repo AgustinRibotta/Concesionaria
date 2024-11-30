@@ -1,20 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.concesionaria.ui;
 
-/**
- *
- * @author Agust
- */
+import com.mycompany.concesionaria.logica.ControladoraLogica;
+import com.mycompany.concesionaria.models.Automovil;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 public class EditarDatos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form EditarDatos
-     */
-    public EditarDatos() {
+    ControladoraLogica controladoraLogica = null;
+    int numAuto;
+    Automovil automovil;
+
+    EditarDatos(int num_auto) {
+        controladoraLogica = new ControladoraLogica();
         initComponents();
+        verDatos(num_auto);
+
     }
 
     /**
@@ -41,7 +42,6 @@ public class EditarDatos extends javax.swing.JFrame {
         txtCantPuertas = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        btnEliminar = new javax.swing.JButton();
         txtSalir = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
 
@@ -144,8 +144,6 @@ public class EditarDatos extends javax.swing.JFrame {
                 .addGap(52, 52, 52))
         );
 
-        btnEliminar.setText("Eliminar");
-
         txtSalir.setText("Salir");
         txtSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,26 +152,28 @@ public class EditarDatos extends javax.swing.JFrame {
         });
 
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(151, Short.MAX_VALUE)
+                .addContainerGap(230, Short.MAX_VALUE)
                 .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(txtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(136, 136, 136))
+                .addGap(207, 207, 207))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(33, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31))
@@ -234,10 +234,54 @@ public class EditarDatos extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtSalirActionPerformed
 
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        String marca = txtMarca.getText();
+        String modelo = txtModelo.getText();
+        String color = txtColor.getText();
+        String motor = txtMotor.getText();
+        String patente = txtPatente.getText();
+        String cantPuertas = txtCantPuertas.getText();
+
+// Validar que la cantidad de puertas sea un número entero válido entre 1 y 5
+        int cantidadPuertas;
+        try {
+            cantidadPuertas = Integer.parseInt(cantPuertas); // Intentar convertir el texto a entero
+            if (cantidadPuertas < 1 || cantidadPuertas > 5) { // Verificar que esté en el rango permitido
+                throw new IllegalArgumentException("La cantidad de puertas debe estar entre 1 y 5.");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "La cantidad de puertas debe ser un número entero válido.",
+                    "Error de Validación",
+                    JOptionPane.ERROR_MESSAGE);
+            return; // Detener el proceso si hay un error
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this,
+                    e.getMessage(),
+                    "Error de Validación",
+                    JOptionPane.ERROR_MESSAGE);
+            return; // Detener el proceso si hay un error
+        }
+
+// Si la validación es exitosa, continuar con la modificación
+        controladoraLogica.modificarAuto(automovil, marca, modelo, color, motor, patente, String.valueOf(cantidadPuertas));
+
+        JOptionPane jOptionPane = new JOptionPane("Se guardó correctamente");
+        jOptionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+        JDialog dialog = jOptionPane.createDialog("Guardado Exitoso");
+        dialog.setAlwaysOnTop(true);
+        dialog.setVisible(true);
+
+// Abrir el catálogo y cerrar la ventana actual
+        Catalogo catalogo = new Catalogo();
+        catalogo.setVisible(true);
+        catalogo.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
-    private javax.swing.JButton btnEliminar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -255,4 +299,29 @@ public class EditarDatos extends javax.swing.JFrame {
     private javax.swing.JTextField txtPatente;
     private javax.swing.JButton txtSalir;
     // End of variables declaration//GEN-END:variables
+
+    private void verDatos(int num_auto) {
+        this.automovil = controladoraLogica.traerAutomovil(num_auto);
+
+        if (this.automovil == null) {
+            JOptionPane.showMessageDialog(this, "No se encontró un automóvil con el ID proporcionado.");
+            return;
+        }
+
+        // Rellenamos los campos con los datos del automóvil
+        txtMarca.setText(automovil.getMarca());
+        txtModelo.setText(automovil.getModelo());
+        txtColor.setText(automovil.getColor());
+        txtMotor.setText(automovil.getMotor());
+        txtPatente.setText(automovil.getPatente());
+
+        try {
+            int cantidadPuertas = automovil.getCantidadPuertas();
+            txtCantPuertas.setText(String.valueOf(cantidadPuertas));
+        } catch (NumberFormatException e) {
+            txtCantPuertas.setText("");
+            JOptionPane.showMessageDialog(this, "Error al cargar la cantidad de puertas. Verifique los datos.");
+        }
+
+    }
 }

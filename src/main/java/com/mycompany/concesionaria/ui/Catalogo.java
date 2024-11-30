@@ -42,6 +42,7 @@ public class Catalogo extends javax.swing.JFrame {
         btnEditar = new javax.swing.JButton();
         btnVer = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -179,18 +180,27 @@ public class Catalogo extends javax.swing.JFrame {
             }
         });
 
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(135, Short.MAX_VALUE)
-                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
+                .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(182, 182, 182)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(136, 136, 136))
+                .addGap(26, 26, 26))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,8 +209,9 @@ public class Catalogo extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVer, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31))
+                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -249,9 +260,27 @@ public class Catalogo extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
 
-        EditarDatos editarDatos = new EditarDatos();
-        editarDatos.setVisible(true);
-        editarDatos.setLocationRelativeTo(null);
+        if (jTable1.getRowCount() > 0) {
+//            Controlo selecion de Mascota
+            if (jTable1.getSelectedRow() != -1) {
+
+                int num_auto = Integer.parseInt(
+                        String.valueOf(jTable1.getValueAt(
+                                jTable1.getSelectedRow(), 0)));
+
+                EditarDatos pantallaModif = new EditarDatos(num_auto);
+                pantallaModif.setVisible(true);
+                pantallaModif.setLocationRelativeTo(null);
+                this.dispose();
+
+            } else {
+                mostrarMensaje("No seleccionbo ninguna automovil",
+                        "Error", "Error al edotar");
+            }
+        } else {
+            mostrarMensaje("No hay nada para editasr en la tabla",
+                    "Error", "Error al editar");
+        }
 
     }//GEN-LAST:event_btnEditarActionPerformed
 
@@ -259,20 +288,20 @@ public class Catalogo extends javax.swing.JFrame {
         if (jTable1.getRowCount() > 0) {
 //            Controlo selecion de Mascota
             if (jTable1.getSelectedRow() != -1) {
-              
+
                 int num_cliente = Integer.parseInt(
                         String.valueOf(jTable1.getValueAt(
                                 jTable1.getSelectedRow(), 0)));
-                
+
                 VerDatos pantallaModif = new VerDatos(num_cliente);
                 pantallaModif.setVisible(true);
                 pantallaModif.setLocationRelativeTo(null);
-                
+
             } else {
-                mostrarMensaje("No seleccionbo ninguna mascota",
+                mostrarMensaje("No seleccionbo ninguna automovil",
                         "Error", "Error al edotar");
             }
-        }else {
+        } else {
             mostrarMensaje("No hay nada para editasr en la tabla",
                     "Error", "Error al editar");
         }
@@ -321,10 +350,49 @@ public class Catalogo extends javax.swing.JFrame {
         cargarTabla();
     }//GEN-LAST:event_btnTodoActionPerformed
 
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // Controlo tabla no sea vacía
+        if (jTable1.getRowCount() > 0) {
+            // Controlo selección de Auto
+            if (jTable1.getSelectedRow() != -1) {
+                // Obtengo id del Auto
+                int num_auto = Integer.parseInt(
+                        String.valueOf(jTable1.getValueAt(
+                                jTable1.getSelectedRow(), 0)));
+
+                // Mostrar cuadro de confirmación
+                int respuesta = JOptionPane.showConfirmDialog(
+                        this,
+                        "¿Está seguro de que desea eliminar este automóvil?",
+                        "Confirmación de Eliminación",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                );
+
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    // Llamo al método borrar
+                    control.borrarAuto(num_auto);
+
+                    // Aviso al usuario
+                    mostrarMensaje("Automóvil eliminado correctamente",
+                            "Info", "Borrado de Auto");
+                    cargarTabla();
+                }
+            } else {
+                mostrarMensaje("No seleccionó ningún Auto",
+                        "Error", "Error al eliminar");
+            }
+        } else {
+            mostrarMensaje("No hay nada para eliminar en la tabla",
+                    "Error", "Error al eliminar");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnTodo;
     private javax.swing.JButton btnVer;

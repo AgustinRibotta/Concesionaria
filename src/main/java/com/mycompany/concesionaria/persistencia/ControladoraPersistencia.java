@@ -2,6 +2,8 @@ package com.mycompany.concesionaria.persistencia;
 
 import com.mycompany.concesionaria.models.Automovil;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ControladoraPersistencia {
 
@@ -24,5 +26,22 @@ public class ControladoraPersistencia {
 
     public Automovil traerUnAutomovil(int num_auto) {
         return  jpaController.find(num_auto);
+    }
+
+    public void modificarAuto(Automovil automovil) {
+        try {
+            jpaController.edit(automovil);
+        } catch (Exception e) {
+           Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+
+    public void borrarAuto(int num_auto) {
+    
+        try {
+            jpaController.delete(num_auto);
+        } catch (Exception ex) {
+            Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
