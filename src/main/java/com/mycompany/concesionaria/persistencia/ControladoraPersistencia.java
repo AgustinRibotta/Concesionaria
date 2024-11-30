@@ -21,4 +21,8 @@ public class ControladoraPersistencia {
     public List<Automovil> buscar(String modelo, String marca, String color) {
         return jpaController.buscarPorParametros(modelo, marca, color);
     }
+
+    public Automovil traerUnAutomovil(int num_auto) {
+        return  jpaController.find(num_auto);
+    }
 }

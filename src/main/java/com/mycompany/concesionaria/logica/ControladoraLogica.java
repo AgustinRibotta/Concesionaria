@@ -74,4 +74,8 @@ public class ControladoraLogica {
         List<Automovil> resultados = controladoraPersistencia.buscar(modelo, marca, color);
         ui.actualizarTabla(resultados);
     }
+
+    public Automovil traerAutomovil(int num_auto) {
+        return controladoraPersistencia.traerUnAutomovil(num_auto);
+    }
 }

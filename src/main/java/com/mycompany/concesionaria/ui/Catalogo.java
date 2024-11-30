@@ -3,6 +3,7 @@ package com.mycompany.concesionaria.ui;
 import com.mycompany.concesionaria.logica.ControladoraLogica;
 import com.mycompany.concesionaria.models.Automovil;
 import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -255,10 +256,26 @@ public class Catalogo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
-
-        VerDatos verDatos = new VerDatos();
-        verDatos.setVisible(true);
-        verDatos.setLocationRelativeTo(null);
+        if (jTable1.getRowCount() > 0) {
+//            Controlo selecion de Mascota
+            if (jTable1.getSelectedRow() != -1) {
+              
+                int num_cliente = Integer.parseInt(
+                        String.valueOf(jTable1.getValueAt(
+                                jTable1.getSelectedRow(), 0)));
+                
+                VerDatos pantallaModif = new VerDatos(num_cliente);
+                pantallaModif.setVisible(true);
+                pantallaModif.setLocationRelativeTo(null);
+                
+            } else {
+                mostrarMensaje("No seleccionbo ninguna mascota",
+                        "Error", "Error al edotar");
+            }
+        }else {
+            mostrarMensaje("No hay nada para editasr en la tabla",
+                    "Error", "Error al editar");
+        }
     }//GEN-LAST:event_btnVerActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -336,7 +353,7 @@ public class Catalogo extends javax.swing.JFrame {
             }
         };
 //         Setiamnos los titulos
-        String titulos[] = {"Modelo", "Marca", "Motor", "Color", "Cant Puertas"};
+        String titulos[] = {"Id", "Modelo", "Marca", "Motor", "Color", "Cant Puertas"};
         tableModel.setColumnIdentifiers(titulos);
 
         List<Automovil> listAutomovil = control.traerAutomovil();
@@ -345,7 +362,7 @@ public class Catalogo extends javax.swing.JFrame {
 
             for (Automovil auto : listAutomovil) {
 
-                Object[] objects = {auto.getModelo(), auto.getMarca(),
+                Object[] objects = {auto.getId(), auto.getModelo(), auto.getMarca(),
                     auto.getMotor(), auto.getColor(), auto.getCantidadPuertas()
                 };
                 tableModel.addRow(objects);
@@ -355,7 +372,7 @@ public class Catalogo extends javax.swing.JFrame {
         jTable1.setModel(tableModel);
 
     }
-    
+
     public void actualizarTabla(List<Automovil> automoviles) {
         DefaultTableModel tableModel = new DefaultTableModel() {
             @Override
@@ -378,6 +395,20 @@ public class Catalogo extends javax.swing.JFrame {
         }
 
         jTable1.setModel(tableModel);  // Establecer el modelo de la tabla
+    }
+
+    private void mostrarMensaje(String mensaje, String tipo, String titulo) {
+        JOptionPane jOptionPane = new JOptionPane(mensaje);
+
+        if (tipo.equals("Info")) {
+            jOptionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+        } else if (tipo.equals("Error")) {
+            jOptionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
+        }
+
+        JDialog dialog = jOptionPane.createDialog(titulo);
+        dialog.setAlwaysOnTop(true);
+        dialog.setVisible(true);
     }
 
 }

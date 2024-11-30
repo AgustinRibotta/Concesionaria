@@ -1,20 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.concesionaria.ui;
 
-/**
- *
- * @author Agust
- */
+import com.mycompany.concesionaria.logica.ControladoraLogica;
+import com.mycompany.concesionaria.models.Automovil;
+import javax.swing.JOptionPane;
+
 public class VerDatos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form VerDatos
-     */
-    public VerDatos() {
+    ControladoraLogica controladoraLogica = null;
+    int numAuto;
+    Automovil automovil;
+
+    VerDatos(int num_auto) {
+        controladoraLogica = new ControladoraLogica();
         initComponents();
+        verDatos(num_auto);
     }
 
     /**
@@ -238,4 +237,36 @@ public class VerDatos extends javax.swing.JFrame {
     private javax.swing.JTextField txtMotor;
     private javax.swing.JTextField txtPatente;
     // End of variables declaration//GEN-END:variables
+    private void verDatos(int num_auto) {
+        this.automovil = controladoraLogica.traerAutomovil(num_auto);
+
+        if (this.automovil == null) {
+            JOptionPane.showMessageDialog(this, "No se encontró un automóvil con el ID proporcionado.");
+            return;
+        }
+
+        // Rellenamos los campos con los datos del automóvil
+        txtMarca.setText(automovil.getMarca());
+        txtModelo.setText(automovil.getModelo());
+        txtColor.setText(automovil.getColor());
+        txtMotor.setText(automovil.getMotor());
+        txtPatente.setText(automovil.getPatente());
+
+        try {
+            int cantidadPuertas = automovil.getCantidadPuertas();
+            txtCantPuertas.setText(String.valueOf(cantidadPuertas));
+        } catch (NumberFormatException e) {
+            txtCantPuertas.setText("");
+            JOptionPane.showMessageDialog(this, "Error al cargar la cantidad de puertas. Verifique los datos.");
+        }
+
+        // Hacer los campos no editables
+        txtMarca.setEditable(false);
+        txtModelo.setEditable(false);
+        txtColor.setEditable(false);
+        txtMotor.setEditable(false);
+        txtPatente.setEditable(false);
+        txtCantPuertas.setEditable(false);
+    }
+
 }
